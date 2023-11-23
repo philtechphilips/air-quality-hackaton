@@ -1,5 +1,6 @@
 import headerImage from "../../assets/Rectangle 1.png";
 import securityIcon from "../../assets/Security.png";
+import mapBg from "../../assets/image 1.png";
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -19,6 +20,7 @@ const Header = () => {
           <img src={headerImage}></img>
           <img className="security-icon" src={securityIcon}></img>
         </div>
+        <img className="map-bg" src={mapBg}></img>
       </header>
   )
 }
