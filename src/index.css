@@ -1,9 +1,303 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-body{
+body {
   font-family: "Inter", sans-serif;
+}
+
+:root {
+  --primary-color: #59C8F5;
+  --secondary-color: #FF8200;
+  --black-color: #000000;
+  --light-blue-color: #87CEEB;
+  --gray-color: #B3B3B3;
+}
+
+.header {
+  padding: 50px 100px;
+  background: var(--primary-color);
+}
+
+.header h1 {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.header-text {
+  font-size: 60px !important;
+  font-weight: 700px;
+}
+
+.header-text span {
+  font-size: 60px;
+  font-weight: 400 !important;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+  margin-top: 100px;
+  position: relative;
+}
+
+.header-content-left {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.header-content img {
+  width: 450px;
+}
+
+.cta {
+  display: flex;
+  width: 387px;
+  height: 60px;
+  padding: 0px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  background: var(--secondary-color);
+  text-decoration: none;
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.cta:hover:hover {
+  background: #dc7200
+}
+
+.security-icon {
+  position: absolute;
+  right: 400px !important;
+  top: 100px !important;
+  width: 100px !important;
+}
+
+.main-body {
+  padding: 123px 114px;
+  display: flex;
+  flex-direction: column;
+  gap: 150px;
+}
+
+.main-body-content h1 {
+  color: #000;
+  font-size: 48px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.main-body-content h1 span{
+  color: var(--light-blue-color);
+}
+
+.body-text{
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.main-body-info-flex{
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 100px;
+}
+
+.body-info-left{
+  justify-content: flex-end;
+}
+
+.main-body-info-flex h3{
+  color: #B3B3B3;
+font-size: 40px;
+font-weight: 500;
+}
+
+.body-icons{
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #FFF;
+  box-shadow: 0px 1px 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.map-section{
+  padding: 168px;
+  background-color: var(--primary-color);
+}
+
+.map-section p{
+  color: #FFF;
+text-align: center;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+.map-section img{
+ width: 100%;
+ margin-top: 70px;
+}
+
+.footer{
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 70px;
+}
+
+.footer-content{
+  border-radius: 20px;
+  background: #F5F5F5;
+  display: flex;
+  padding: 50px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 72px;
+}
+
+.footer h6{
+  color: #59C8F5;
+font-size: 40px;
+font-weight: 700;
+}
+
+.footer p{
+  color: rgba(0, 0, 0, 0.60);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding: 50px 20px;
+    background: var(--primary-color);
+  }
+
+
+  .header h1 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .header-text {
+    font-size: 40px !important;
+    font-weight: 700px;
+    text-align: center;
+  }
+
+  .header-text span {
+    font-size: 40px;
+    font-weight: 400 !important;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+  }
+
+  .cta {
+    width: 100%;
+    height: 60px;
+    padding: 0px 8px;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .header-content img {
+    width: 100%;
+  }
+
+  
+.main-body {
+  padding: 70px 20px;
+  gap: 70px;
+}
+
+.main-body-content h1 {
+  color: #000;
+  font-size: 28px;
+}
+
+.body-text{
+  font-size: 16px;
+}
+
+.main-body-info-flex{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.body-info-left{
+  justify-content: flex-start;
+}
+
+.main-body-info-flex h3{
+  color: #B3B3B3;
+font-size: 20px;
+font-weight: 500;
+}
+
+.body-icons{
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #FFF;
+  box-shadow: 0px 1px 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.body-icons img{
+  width: 50px;
+}
+
+.map-section{
+  padding: 80px 20px;
+  background-color: var(--primary-color);
+}
+
+.map-section p{
+font-size: 18px;
+}
+
+.map-section img{
+ width: 100%;
+ margin-top: 30px;
+}
+
+
+.footer{
+  padding: 10px;
+}
+
+.footer-content{
+  border-radius: 10px;
+  padding: 30px 0px;
+  gap: 42px;
+}
+
+.footer h6{
+  color: #59C8F5;
+font-size: 28px;
+font-weight: 700;
+}
+
+.footer p{
+  font-size: 16px;
+}
+
 }
