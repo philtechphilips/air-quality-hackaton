@@ -8,7 +8,7 @@ const Header = () => {
     <header className="header">
       <h1>EcoAirWatch.</h1>
       <div className="header-content">
-        <div className="header-content-left">
+        <div className="header-content-left" data-aos="fade-right"  data-aos-duration="2000">
           <h1 className="header-text">
             <span>Breathe Easy with</span> Global Air Quality Insights.
           </h1>
@@ -39,8 +39,8 @@ const Header = () => {
           </Link>
         </div>
 
-        <img src={headerImage}></img>
-        <img className="security-icon" src={securityIcon}></img>
+        <img src={headerImage} data-aos="fade-left"  data-aos-duration="2000"></img>
+        <img className="security-icon" src={securityIcon} data-aos="fade-left"  data-aos-duration="2000"></img>
       </div>
       <img className="map-bg" src={mapBg}></img>
     </header>
