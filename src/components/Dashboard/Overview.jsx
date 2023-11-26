@@ -80,7 +80,7 @@ const Overview = ({ data, hourHistory, setLocation, location }) => {
   return (
     <div className="md:pl-[125px] px-5 md:pr-[100px] pt-[50px] pb-[15px]">
       <div className="flex justify-between w-full items-center">
-        <div className="flex w-2/3 gap-20">
+        <div className="flex w-2/3 gap-10 md:gap-20">
           {" "}
           <h2 className=" text-2xl font-medium text-[#000]">Overview</h2>
           <form className="flex-1" onSubmit={searchLocaton}>
