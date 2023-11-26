@@ -1,16 +1,19 @@
-import React from "react";
-import map from "../../assets/map.png";
-import index from "../../assets/index.png";
-import chart from "../../assets/chart.png";
-import toggle from "../../assets/toggle.png";
+import React, { useState } from "react";
 import { IgrRadialGauge } from 'igniteui-react-gauges';
 import { IgrRadialGaugeRange } from 'igniteui-react-gauges';
 import { IgrRadialGaugeModule } from 'igniteui-react-gauges';
 import ReactApexChart from "react-apexcharts";
+import axios from "axios";
+import Map from "./Map";
 
 IgrRadialGaugeModule.register();
 
-const Overview = ({ data, hourHistory }) => {
+const Overview = ({ data, hourHistory, setLocation, location }) => {
+  const [searchData, setSearchData] = useState("");
+  const [long, setLong] = useState("");
+  const [lat, setLat] = useState("")
+  console.log(location)
+
   function camelCaseToWords(str) {
     return str.replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase();
   }
@@ -55,15 +58,34 @@ const Overview = ({ data, hourHistory }) => {
     }
   ];
 
+  const searchLocaton = async(e) => {
+    e.preventDefault();
+   try{
+       const response = await axios.get(`https://api.geoapify.com/v1/geocode/search?text=${searchData}=&apiKey=815ef87723864d50a2ab9d3c87fd01af`);
+       console.log(response.data.features[0].properties.lon);
+       console.log(response.data.features[0].properties.lat);
+       setLocation({
+        latitude: response.data.features[0].properties.lat,
+        longitude: response.data.features[0].properties.lon,
+      })
+      setSearchData("");
+      setLat(response.data.features[0].properties.lat);
+      setLong(response.data.features[0].properties.lon)
+   }catch(error){
+    console.log(error);
+   }
+
+  }
+
   return (
-    <div className="pl-[125px] pr-[100px] pt-[50px] pb-[15px]">
+    <div className="md:pl-[125px] px-5 md:pr-[100px] pt-[50px] pb-[15px]">
       <div className="flex justify-between w-full items-center">
         <div className="flex w-2/3 gap-20">
           {" "}
           <h2 className=" text-2xl font-medium text-[#000]">Overview</h2>
-          <form className="flex-1">
+          <form className="flex-1" onSubmit={searchLocaton}>
             <div className="relative">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <button type="submit" className="absolute inset-y-0 start-0 flex items-center ps-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -84,44 +106,22 @@ const Overview = ({ data, hourHistory }) => {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </div>
+              </button>
               <input
                 type="search"
                 id="default-search"
                 className="block w-full py-3 ps-10 text-sm font-medium border border-[#F3F3F3] rounded-[20px] focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Search a location..."
+                placeholder="Search state and country..."
                 required=""
+                value={searchData}
+                onChange={(e) => setSearchData(e.target.value)}
               />
             </div>
           </form>
         </div>
-        <div className="p-2 border rounded-full shadow-sm">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M2.52992 14.7696C2.31727 16.1636 3.268 17.1312 4.43205 17.6134C8.89481 19.4622 15.1052 19.4622 19.5679 17.6134C20.732 17.1312 21.6827 16.1636 21.4701 14.7696C21.3394 13.9129 20.6932 13.1995 20.2144 12.5029C19.5873 11.5793 19.525 10.5718 19.5249 9.5C19.5249 5.35786 16.1559 2 12 2C7.84413 2 4.47513 5.35786 4.47513 9.5C4.47503 10.5718 4.41272 11.5793 3.78561 12.5029C3.30684 13.1995 2.66061 13.9129 2.52992 14.7696Z"
-              stroke="#141B34"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M8 19C8.45849 20.7252 10.0755 22 12 22C13.9245 22 15.5415 20.7252 16 19"
-              stroke="#141B34"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
       </div>
       <div className=" pt-14">
-        <img src={map} alt="heat map" />
+        <Map location={location} />
       </div>
       {Object.keys(data).length > 0 ? (
         <div className="pt-5 flex gap-5 w-full">
@@ -183,7 +183,7 @@ const Overview = ({ data, hourHistory }) => {
                   Hourly History
                 </h4>
                 <p className="text-sm font-medium text-[#000]">
-                  2023-11-23 17:00 UTC
+                  {new Date().toLocaleString()}
                 </p>
               </div>
               <div className="pt-[97px] pb-[58px]">
@@ -272,7 +272,61 @@ const Overview = ({ data, hourHistory }) => {
           </div>
         </div>
       ) : (
-        <p>No Data</p>
+         <div className="pt-5 flex gap-5 w-full">
+          <div className="flex flex-col gap-5 w-1/2">
+            <div className="border rounded-[20px] p-6 bg-[#F5F5F5]">
+              <h4 className=" text-2xl font-medium text-[#000] pb-1">
+                Air Quality Index
+              </h4>
+              <p className=" text-sm font-medium text-[#000]">N/A</p>
+              <div className="flex flex-col items-center gap-[0px] pt-[14px]">
+                <div>
+                  <IgrRadialGauge
+                    height="350px"
+                    width="350px"
+                    minimumValue={0} value={0}
+                    maximumValue={400} interval={50}
+                    rangeBrushes="#00E400, #FFFF00, #FF8106, #FF0000, #904198, #7E0023"
+                    rangeOutlines="#00E400, #FFFF00, #FF8106, #FF0000, #904198, #7E0023"  >
+                    <IgrRadialGaugeRange name="range1"
+                      startValue={0} endValue={50}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                    <IgrRadialGaugeRange name="range2"
+                      startValue={50} endValue={100}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                    <IgrRadialGaugeRange name="range3"
+                      startValue={100} endValue={150}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                    <IgrRadialGaugeRange name="range4"
+                      startValue={150} endValue={200}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                    <IgrRadialGaugeRange name="range5"
+                      startValue={200} endValue={300}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                    <IgrRadialGaugeRange name="range6"
+                      startValue={300} endValue={400}
+                      innerStartExtent={0.50} innerEndExtent={0.50}
+                      outerStartExtent={0.57} outerEndExtent={0.57} />
+                  </IgrRadialGauge>
+
+                </div>
+                <div>
+                  <h6 className=" text-2xl font-medium text-[#000] pb-1">
+                    N/A
+                  </h6>
+                  <p className=" text-xs font-normal text-[rgba(0, 0, 0, 0.50)]">
+                    Dominant pollutant: N/A
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>

@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 const apiKey = import.meta.env.VITE_API_KEY;
 
 const Dashboard = () => {
-  const [locations, setLocation] = useState({ latitude: null, longitude: null });
+  const [locations, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [airData, setAirData] = useState({});
   const [airHourHistory, setAirHourHistory,] = useState([]);
 
@@ -33,14 +33,15 @@ const Dashboard = () => {
   useEffect(() => {
     fetchAirData();
     fetchHourAirData();
+    console.log(locations)
   }, [locations]);
 
   const fetchAirData = async () => {
     try {
       const response = await axios.post(`/currentConditions:lookup?key=${apiKey}`, {
         location: {
-          latitude: 	39.000000,
-          longitude: -80.500000
+          latitude: 	locations.latitude,
+          longitude: locations.longitude
         }, extraComputations: [
           "HEALTH_RECOMMENDATIONS",
           "DOMINANT_POLLUTANT_CONCENTRATION",
@@ -53,7 +54,8 @@ const Dashboard = () => {
       setAirData(response.data)
     } catch (error) {
       console.log(error)
-      // toast.error("Something went wrong!");
+      setAirData({})
+      toast.error(error.response.data.error.message);
     }
   }
   
@@ -64,8 +66,8 @@ const Dashboard = () => {
         hours: 7,
         pageSize: 7,
         location: {
-          latitude: 	39.000000,
-          longitude: -80.500000
+          latitude: 	locations.latitude,
+          longitude: locations.longitude
         }
       });
       console.log(response.data);
@@ -78,11 +80,11 @@ const Dashboard = () => {
 
   return (
     <section className="flex">
-      <div>
+      <div className="hidden md:flex">
         <Sidebar />
       </div>
-      <div className="flex-1">
-        <Overview data={airData} hourHistory={airHourHistory}/>
+      <div className="flex-1"> 
+        <Overview data={airData} hourHistory={airHourHistory} setLocation={setLocation} location={locations}/>
       </div>
       <ToastContainer />
     </section>
