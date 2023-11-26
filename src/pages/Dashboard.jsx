@@ -5,7 +5,7 @@ import Overview from "../components/Dashboard/Overview";
 const Dashboard = () => {
   return (
     <section className="flex">
-      <div>
+      <div className="hidden md:block">
         <Sidebar />
       </div>
       <div className="flex-1">
